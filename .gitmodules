@@ -1,0 +1,3 @@
+[submodule "terraform-gke"]
+	path = terraform-gke
+	url = https://github.com/stefan-caraiman/terraform-gke

@@ -1,1 +1,3 @@
-# demo-kubernetes
+# Kubernetes demo
+
+# Prerequisites
