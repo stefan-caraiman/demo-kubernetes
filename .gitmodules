@@ -4,3 +4,6 @@
 [submodule "helm-app-gke"]
 	path = helm-app-gke
 	url = https://github.com/stefan-caraiman/helm-app-gke
+[submodule "flask-app"]
+	path = flask-app
+	url = https://github.com/stefan-caraiman/flask-app
