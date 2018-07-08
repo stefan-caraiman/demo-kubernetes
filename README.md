@@ -56,7 +56,7 @@ git submodule update --init --recursive
 
 4. Install the Helm server(Tiller) inside the Kubernetes cluster.
 
-![](./images/tiller-deploy.png.png)
+![](./images/tiller-deploy.png)
 
 # Useful resources found during the implentation of this demo:
 
