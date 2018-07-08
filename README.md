@@ -2,7 +2,7 @@
 
 Small demo application deployed within GKE(Google Kubernetes Engine) with Terraform and Helm.
 
-# About the projects(Git submodules) used in this demo project:
+# About the projects used in this demo project:
 
 ## Terraform-gke
 
@@ -53,6 +53,10 @@ git submodule update --init --recursive
 3. If all seems to be in check, run the apply command ```terraform apply```
 
 ![](./images/terraform-apply.png)
+
+4. Install the Helm server(Tiller) inside the Kubernetes cluster.
+
+![](./images/tiller-deploy.png.png)
 
 # Useful resources found during the implentation of this demo:
 
