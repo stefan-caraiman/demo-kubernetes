@@ -12,11 +12,32 @@ Small demo application deployed within GKE(Google Kubernetes Engine) with Terraf
 * helm installed (https://github.com/kubernetes/helm/blob/master/docs/install.md)
 * Consul installed, if you prefer having the Terraform state saved in it, rather than in a Google bucket.
 
-# Creatin the Kubernetes cluster
+# Setting up the Google Cloud account
+
+# Setup of the repository
+
+```
+# Clone the repository
+git clone https://github.com/stefan-caraiman/demo-kubernetes
+# Change working directory
+cd demo-kubernetes
+# Fetch the submodules code
+git submodule update --init --recursive
+```
+
+# Creating the Kubernetes cluster
 
 1. Setup all the required variables and account details in the terraform-gke repository as shown below:
 
 ![](./images/terraform-1.png)
+
+2. Check the terraform plan
+
+![](./images/terraform-plan.png)
+
+3. If all seems to be in check, run the apply command ```terraform apply```
+
+![](./images/terraform-apply.png)
 
 # Useful resources found during the implentation of this demo:
 
