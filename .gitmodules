@@ -1,3 +1,6 @@
 [submodule "terraform-gke"]
 	path = terraform-gke
 	url = https://github.com/stefan-caraiman/terraform-gke
+[submodule "helm-app-gke"]
+	path = helm-app-gke
+	url = https://github.com/stefan-caraiman/helm-app-gke
