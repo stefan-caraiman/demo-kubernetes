@@ -8,14 +8,13 @@ Small demo application deployed within GKE(Google Kubernetes Engine) with Terraf
 
 Contains all the code necesessary for setting up a Kubernetes Cluster with Terraform, by default it uses a Google bucket to save the state of the infrastructure, it is possible to also use a Consul backend(look at the code for the example) or local statefile which is only indicated for local/dev projects.
 
-## Flask-app
+## Demo-proxy
 
-Contains a small dummy webserver in Flask(Python webframework) and a Dockerfile, both of which are used for building a small custom Docker image with the help of a Travis-CI pipeline which pushes the image to Dockerhub. (see .travis.yml for implementation)
+Contains a webserver in Gunicorn(Python webframework) and a Dockerfile, both of which are used for building a small custom Docker image with the help of a Travis-CI pipeline which pushes the image to Dockerhub. (see .travis.yml for implementation)
 
 ## Helm-app-gke
 
-Contains the helm charts used for deploying the Flask-app and prometheus to the kubernetes cluster which gets created by Terraform.(make sure you've also initialized Tiller in the Kubernetes cluster.)
-
+Contains the helm charts used for deploying the Python webserver worker and server to the kubernetes cluster which gets created by Terraform.(make sure you've also initialized Tiller in the Kubernetes cluster.)
 
 # Prerequisites:
 
@@ -27,9 +26,15 @@ Contains the helm charts used for deploying the Flask-app and prometheus to the 
 * helm installed (https://github.com/kubernetes/helm/blob/master/docs/install.md)
 * Consul installed, if you prefer having the Terraform state saved in it, rather than in a Google bucket.
 
-# How to set up the Google Cloud account
+# How to set up the Google Cloud account:
 
-# How to set up of the repository
+Register for a Google Cloud account and create a new project, preferably a project with the same name as the one used for this demo(terraform-gke-randomid) so that it is easier to follow along.
+
+# How to setup a Google bucket for saving the Terraform state:
+
+![](./images/bucket.png)
+
+# How to set up the repository
 
 ```
 # Clone the repository
@@ -40,9 +45,9 @@ cd demo-kubernetes
 git submodule update --init --recursive
 ```
 
-# How to set up the Kubernetes cluster with Terraform
+# How to set up the Kubernetes cluster with Terraform:
 
-1. Setup all the required variables and account details in the terraform-gke repository as shown below:
+1. Setup all the required variables and account details in the terraform-gke repository as shown below(make sure to also follow the documentation found in the terraform-gke repository for setting the ```account.json``` and ```terraform.tfvars``` files):
 
 ![](./images/terraform-1.png)
 
@@ -54,14 +59,32 @@ git submodule update --init --recursive
 
 ![](./images/terraform-apply.png)
 
-4. Install the Helm server(Tiller) inside the Kubernetes cluster.
+4. Install the Helm server(Tiller) inside the Kubernetes cluster(code can also be found in the terraform-gke repository).
 
 ![](./images/tiller-deploy.png)
 
+# How to set up Helm
+
+This will set up the webserver proxy application and the other required components(an Nginx server and Redis cluster).
+
+```
+cd helm-app-gke/
+helm install stable/nginx-ingress --namespace kube-system --set controller.hostNetwork=true,controller.kind=DaemonSet
+kubectl apply -f ingress-demo-proxy.yaml --namespace kube-system
+helm install --namespace kube-system stable/redis-ha --name redis-ha
+helm install --namespace kube-system  ./app --name demo-proxy
+```
+
+## Get the public external IP and access it.
+
+![](./images/ip.png)
+
+![](./images/example.png)
+
 # Useful resources found during the implentation of this demo:
 
-* https://www.youtube.com/watch?v=9Wzw84Q-8yc
-* https://itnext.io/kubernetes-monitoring-with-prometheus-in-15-minutes-8e54d1de2e13
+* https://www.youtube.com/watch?v=vQX5nokoqrQ
+* https://www.youtube.com/watch?v=0VEeuM-CUWQ
 * https://dzone.com/articles/build-a-kubernetes-cluster-on-gcp-with-terraform
 * https://github.com/hashicorp/terraform-guides/tree/master/infrastructure-as-code/k8s-cluster-gke
 * https://nickcharlton.net/posts/kubernetes-terraform-google-cloud.html
