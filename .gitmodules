@@ -7,3 +7,6 @@
 [submodule "flask-app"]
 	path = flask-app
 	url = https://github.com/stefan-caraiman/flask-app
+[submodule "demo-proxy"]
+	path = demo-proxy
+	url = https://github.com/stefan-caraiman/demo-proxy
